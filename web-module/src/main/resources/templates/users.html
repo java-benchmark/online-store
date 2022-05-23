@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>USERS LIST</h1>
+    <a href="/home" th:href="@{/home}">Go to menu</a><br>
+    Fount <span th:text="${countUsers}"></span> users<br>
+    <form action="#" method="post" th:action="@{/users/delete}">
+        <table class="table table-striped">
+            <tr>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Middle Name</th>
+                <th>E-mail</th>
+                <th>Role</th>
+                <th>change role</th>
+                <th>apply new password</th>
+                <th>delete user</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.surname}"></td>
+                <td th:utext="${user.name}"></td>
+                <td th:text="${user.middleName}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.role}"></td>
+                <td>
+
+                    <div style="text-align: center;" th:unless="${user.id}==1">
+                        <form action="#" method="post" th:action="@{/users/role}" th:object="${userUpdate}">
+                            <input type="hidden" name="id" th:value="${user.id}">
+                            <button class="btn btn-primary" type="submit">change role</button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: center;">
+                        <form action="#" method="post" th:action="@{/users/update}" th:object="${userUpdate}">
+                            <input type="hidden" name="id" th:value="${user.id}">
+                            <input type="hidden" name="changePassword" value="true">
+                            <button class="btn btn-primary" type="submit">set new</button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: center;" th:unless="${user.id}==1">
+                        <input class="form-check-input" type="checkbox" id="userIds" name="userIds"
+                               th:value="${user.id}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-primary" type="submit">delete</button>
+    </form>
+    <br>
+    <div class="col">
+        <div>
+            <div th:if="(${countUsers}-${page}*10)>0">
+                <form action="#" method="get" th:action="@{/users}">
+                    <input type="hidden" name="page" th:value="${page}+1">
+                    <button class="btn btn-primary" type="submit">Next page</button>
+                </form>
+            </div>
+            <br>
+            <div th:if="${page}>1">
+                <form action="#" method="get" th:action="@{/users}">
+                    <input type="hidden" name="page" th:value="${page}-1">
+                    <button class="btn btn-primary" type="submit">Previous page</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

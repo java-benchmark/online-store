@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page order</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>ORDER DETAILS</h1>
+    <a href="#" th:href="@{/orders}">Go to orders list</a><br>
+    <table class="table">
+        <tr>
+            <th>Number:</th>
+            <th th:text="${order.number}"></th>
+        </tr>
+        <tr>
+            <th>Status:</th>
+            <th>
+                <span th:text="${order.status}"></span>
+                <form action="#" method="post" th:action="@{/orders/update}">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">change to</button>
+                        </div>
+                        <select name="status" class="custom-select" id="inputGroupSelect03">
+                            <option selected th:text="${order.status}"></option>
+                            <option th:each="status : ${statusList}">
+                                <span th:text="${status}"></span>
+                            </option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="id" th:value="${order.id}">
+                </form>
+            </th>
+        </tr>
+        <tr>
+            <th>Name:</th>
+            <th th:text="${order.itemDTO.name}"></th>
+        </tr>
+        <tr>
+            <th>Customer email:</th>
+            <th th:text="${order.userDTO.email}"></th>
+        </tr>
+        <tr>
+            <th>Customer phone:</th>
+            <th th:text="${order.userDTO.phone}"></th>
+        </tr>
+        <tr>
+            <th>Quantity:</th>
+            <th th:text="${order.quantity}"></th>
+        </tr>
+        <tr>
+            <th>Amount price:</th>
+            <th th:text="${order.amount}"></th>
+        </tr>
+    </table>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

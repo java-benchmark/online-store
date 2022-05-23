@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page items</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>ITEMS LIST</h1>
+    <a href="/home" th:href="@{/home}">Go to menu</a><br>
+    Fount <span th:text="${countItems}"></span> items<br>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Unique number</th>
+            <th>Price</th>
+            <th>Show details</th>
+            <th sec:authorize="hasRole('CUSTOMER_USER')">To order</th>
+            <th sec:authorize="hasRole('SALE_USER')">copy</th>
+            <th sec:authorize="hasRole('SALE_USER')">delete</th>
+        </tr>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.uniqueNumber}"></td>
+            <td th:text="${item.price}"></td>
+            <td>
+                <div style="text-align: center;">
+                    <a th:href="@{/items/{id}(id=${item.id})}">more details</a>
+                </div>
+            </td>
+            <td sec:authorize="hasRole('CUSTOMER_USER')">
+                <form action="#" method="post" th:action="@{/orders}">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="itemId" th:value="${item.id}">
+                        <input name="quantity" type="number" class="form-control" placeholder="1" value="1"
+                               min="0" max="100000" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">create order</button>
+                        </div>
+                    </div>
+                </form>
+            </td>
+            <td sec:authorize="hasRole('SALE_USER')">
+                <form action="#" method="post" th:action="@{/items/copy}">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="itemId" th:value="${item.id}">
+                        <button class="btn btn-outline-secondary" type="submit">copy</button>
+                    </div>
+                </form>
+            </td>
+            <td sec:authorize="hasRole('SALE_USER')">
+                <form action="#" method="post" th:action="@{/items/delete}">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="itemId" th:value="${item.id}">
+                        <button class="btn btn-outline-secondary" type="submit">delete</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <div class="col">
+        <div>
+            <div th:if="(${countItems}-${page}*10)>0">
+                <form action="#" method="get" th:action="@{/items}">
+                    <input type="hidden" name="page" th:value="${page}+1">
+                    <button class="btn btn-primary" type="submit">Next page</button>
+                </form>
+            </div>
+            <br>
+            <div th:if="${page}>1">
+                <form action="#" method="get" th:action="@{/items}">
+                    <input type="hidden" name="page" th:value="${page}-1">
+                    <button class="btn btn-primary" type="submit">Previous page</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

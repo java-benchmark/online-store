@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home page</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>HOME PAGE</h1>
+    <br>
+    You have access to these resources:<br>
+    <div sec:authorize="hasRole('SALE_USER')">
+        <a href="#" th:href="@{/news}">Show news list</a><br>
+        <a href="#" th:href="@{/news/add}">Add news</a><br>
+        <a href="#" th:href="@{/items}">Show items list</a><br>
+        <a href="#" th:href="@{/orders}">Show orders list</a><br>
+        <a href="#" th:href="@{/items/upload}">Upload list items</a><br>
+    </div>
+    <div sec:authorize="hasRole('CUSTOMER_USER')">
+        <a href="#" th:href="@{/users/profile}">Edit my profile</a><br>
+        <a href="#" th:href="@{/news}">Show news list</a><br>
+        <a href="#" th:href="@{/items}">Show items list</a><br>
+        <a href="#" th:href="@{/orders}">Show my orders list</a><br>
+        <a href="#" th:href="@{/feedbacks/add}">Add feedback</a><br>
+    </div>
+    <div sec:authorize="hasRole('ADMINISTRATOR')">
+        <a href="#" th:href="@{/users}">Show users list</a><br>
+        <a href="#" th:href="@{/users/add}">Add new user</a><br>
+        <a href="#" th:href="@{/feedbacks}">Show customer feedback list</a><br>
+    </div>
+    <br><br>
+    <span sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></span>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User profile</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>USER PROFILE</h1>
+    <a href="/home" th:href="@{/home}">Go to menu</a>
+    <div class="row">
+        <div class="col">
+            <form action="#" method="post" th:action="@{/users/profile}" th:object="${user}">
+                <div class="form-group">
+                    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span><br>
+                    <label for="surname">Surname:</label>
+                    <input class="form-control" th:field="*{surname}" name="surname" id="surname" type="text"
+                           th:value="*{surname}"
+                           pattern="^[a-zA-Z0-9]+$" maxlength="40" required>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br>
+                    <label for="name">Name:</label>
+                    <input class="form-control" th:field="*{name}" name="name" id="name" type="text"
+                           th:value="*{name}"
+                           pattern="^[a-zA-Z0-9]+$" maxlength="20" required>
+                    <span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></span><br>
+                    <label for="middleName">Middle name:</label>
+                    <input class="form-control" th:field="*{middleName}" name="middleName" id="middleName" type="text"
+                           th:value="*{middleName}"
+                           pattern="^[a-zA-Z0-9]+$" maxlength="40" required>
+                    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span><br>
+                    <label for="phone">Phone:</label>
+                    <input class="form-control" th:field="*{phone}" name="phone" id="phone" type="text"
+                           th:value="*{phone}"
+                           pattern="^[0-9\+\-\(\)]+$" maxlength="20">
+                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span><br>
+                    <label for="address">Address:</label>
+                    <input class="form-control" th:field="*{address}" name="address" id="address" type="text"
+                           th:value="*{address}"
+                           pattern="^[a-zA-Z0-9\,\.\-\/]+$" maxlength="100">
+                    <input name="id" id="id" type="text" th:value="*{id}" hidden>
+                    <br>
+                </div>
+                <button class="btn btn-primary" type="submit">save changes</button>
+            </form>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

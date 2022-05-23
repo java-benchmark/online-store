@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="artemkrotenok@gmail.com">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="surname" type="VARCHAR(40)"/>
+            <column name="name" type="VARCHAR(40)"/>
+            <column name="middle_name" type="VARCHAR(40)"/>
+            <column name="email" type="VARCHAR(50)">
+                <constraints
+                        unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(70)"/>
+            <column name="role" type="VARCHAR(20)"/>
+            <column name="is_deleted" type="BOOLEAN" defaultValue="false"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="artemkrotenok@gmail.com">
+        <insert tableName="user">
+            <column name="surname" value="Admin"/>
+            <column name="name" value="Super"/>
+            <column name="middle_name" value="Main"/>
+            <column name="email" value="admin@admin.com"/>
+            <column name="password" value="$2y$12$4l.fdRwlB9eVAIZPHLKHBe3FyTpxnYbm9dR8meTR2jgSwOKcmupTy"/>
+            <column name="role" value="ADMINISTRATOR"/>
+        </insert>
+    </changeSet>
+    <changeSet id="3" author="artemkrotenok@gmail.com">
+        <createTable tableName="feedback">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_feedback_to_user"
+                        referencedTableName="user"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="content" type="TEXT"/>
+            <column name="date" type="DATE()"/>
+            <column name="is_visible" type="BOOLEAN" defaultValue="true"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="artemkrotenok@gmail.com">
+        <createTable tableName="news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="date" type="DATE()"/>
+            <column name="title" type="VARCHAR(100)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_news_to_user"
+                        referencedTableName="user"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="content" type="TEXT"/>
+            <column name="is_deleted" type="BOOLEAN" defaultValue="false"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="artemkrotenok@gmail.com">
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="news_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_comments_to_news"
+                        referencedTableName="news"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_comments_to_user"
+                        referencedTableName="user"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="date" type="DATE()"/>
+            <column name="content" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="artemkrotenok@gmail.com">
+        <createTable tableName="user_information">
+            <column name="user_id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        foreignKeyName="fk_user_information_to_user"
+                        referencedTableName="user"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="address" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="artemkrotenok@gmail.com">
+        <insert tableName="user_information">
+            <column name="user_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="8" author="artemkrotenok@gmail.com">
+        <createTable tableName="item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(40)"/>
+            <column name="unique_number" type="VARCHAR(50)"/>
+            <column name="price" type="VARCHAR(20)"/>
+            <column name="description" type="VARCHAR(200)"/>
+            <column name="is_deleted" type="BOOLEAN" defaultValue="false"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="artemkrotenok@gmail.com">
+        <createTable tableName="order_item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="date" type="DATE()"/>
+            <column name="number" type="BIGINT"/>
+            <column name="status" type="VARCHAR(20)"/>
+            <column name="item_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_order_item_to_item"
+                        referencedTableName="item"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints
+                        nullable="true"
+                        foreignKeyName="fk_order_item_to_user"
+                        referencedTableName="user"
+                        referencedColumnNames="id"/>
+            </column>
+            <column name="quantity" type="INT"/>
+            <column name="amount" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

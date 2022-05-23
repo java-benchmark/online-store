@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page create feedback</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>CREATE FEEDBACK</h1>
+    <a href="#" th:href="@{/home}">Go to menu</a>
+    <div class="row">
+        <div class="col">
+            <form action="#" method="post" th:action="@{/feedbacks/add}" th:object="${feedback}">
+                <div class="form-group">
+                    <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span><br>
+                    <label for="content">Content:</label>
+                    <textarea class="form-control" id="content" th:field="*{content}" rows="3"
+                              maxlength="1000" required></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">add new feedback</button>
+            </form>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

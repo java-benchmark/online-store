@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page orders</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>ORDERS LIST</h1>
+    <a href="/home" th:href="@{/home}">Go to menu</a><br>
+    Fount <span th:text="${countOrders}"></span> orders<br>
+    <table class="table table-striped">
+        <tr>
+            <th>Number</th>
+            <th>Status</th>
+            <th>Name item</th>
+            <th>Quantity</th>
+            <th>Amount price</th>
+            <th sec:authorize="hasRole('SALE_USER')">Show details</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.number}"></td>
+            <td th:text="${order.status}"></td>
+            <td th:text="${order.itemDTO.name}"></td>
+            <td th:text="${order.quantity}"></td>
+            <td th:text="${order.amount}"></td>
+            <td sec:authorize="hasRole('SALE_USER')">
+                <div style="text-align: center;">
+                    <a th:href="@{/orders/{id}(id=${order.id})}">more details</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="col">
+        <div>
+            <div th:if="(${countOrders}-${page}*10)>0">
+                <form action="#" method="get" th:action="@{/orders}">
+                    <input type="hidden" name="page" th:value="${page}+1">
+                    <button class="btn btn-primary" type="submit">Next page</button>
+                </form>
+            </div>
+            <br>
+            <div th:if="${page}>1">
+                <form action="#" method="get" th:action="@{/orders}">
+                    <input type="hidden" name="page" th:value="${page}-1">
+                    <button class="btn btn-primary" type="submit">Previous page</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>
